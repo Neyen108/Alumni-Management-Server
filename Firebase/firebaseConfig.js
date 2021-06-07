@@ -6,11 +6,19 @@ require("dotenv").config();
 //parsing the environment variable into JSON format
 var serviceAccount = JSON.parse(process.env.GOOGLE_CREDS);
 
+
+//snippet required for initialization
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
+//the firestore database
+
 const _db = admin.firestore();
+
+
+//function that returns the db (for export purposes)
 
 const getDb = () => {
     if(_db){
