@@ -1,6 +1,16 @@
-const getDb = require('./Firebase/firebaseConfig').getDb;
+const express = require('express');
+const app = express();
 
-console.log(getDb());
+const adminApiRoutes = require('./api-routes/adminApiRoutes');
+
+
+app.use(adminApiRoutes);
+
+
+
+
+
+
 
 
 
