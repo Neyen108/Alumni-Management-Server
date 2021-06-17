@@ -1,7 +1,7 @@
 const express = require("express");
 
-//importing the Admin-api POST services
-const adminPost = require("../api-services/admin-api/post/adminPost");
+//importing the General-api GET services
+const generalGet = require("../api-services/general-api/get/generalGet");
 
 //create router
 const router = express.Router();
@@ -13,7 +13,9 @@ const jsonParser = express.json();
 ==========================================================|| ROUTES ||=======================================================================
 */
 
-//login POST request
-router.post("/api/admin/login", jsonParser, adminPost.postLogin);
+//get batches GET request
+router.get("/api/general/getBatches", jsonParser, generalGet.getBatches);
+
+//get Batch data GET request
 
 module.exports = router;
