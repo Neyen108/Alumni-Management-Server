@@ -16,4 +16,7 @@ const jsonParser = express.json();
 //login POST request
 router.post("/api/admin/login", jsonParser, adminPost.postLogin);
 
+//edit entry POST request
+router.post("/api/admin/edit", jsonParser, adminPost.postEdit);
+
 module.exports = router;

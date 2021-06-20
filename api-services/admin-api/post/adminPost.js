@@ -33,3 +33,27 @@ exports.postLogin = async (req, res, next) => {
     return res.status(404).send("Not Found");
   }
 };
+
+exports.postEdit = async (req, res, next) => {
+  const db = getDb();
+
+  const alumniData = req.body.alumniData;
+  delete alumniData.key;
+  try {
+    const alumniDocRef = await db
+      .collection("alumni-db")
+      .doc(`${alumniData.batch}`)
+      .collection("alumni-data")
+      .doc(`${alumniData.id}`);
+
+    const response = await alumniDocRef.set(alumniData);
+
+    return res.status(200).send("Success");
+  } catch {
+    console.log("[*] Error in postEdit");
+
+    return res.status(404).send("Not Found");
+  }
+
+  console.log(alumniData);
+};
