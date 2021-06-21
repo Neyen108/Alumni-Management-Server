@@ -23,4 +23,14 @@ const getDb = () => {
   }
 };
 
+const getFieldValue = () => {
+  const FieldValue = admin.firestore.FieldValue;
+  if (FieldValue) {
+    return FieldValue;
+  } else {
+    console.log(err);
+  }
+};
+
 exports.getDb = getDb;
+exports.getFieldValue = getFieldValue;

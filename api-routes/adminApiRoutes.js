@@ -19,4 +19,10 @@ router.post("/api/admin/login", jsonParser, adminPost.postLogin);
 //edit entry POST request
 router.post("/api/admin/edit", jsonParser, adminPost.postEdit);
 
+//add entry POST request
+router.post("/api/admin/addEntry", jsonParser, adminPost.postAddEntry);
+
+//delete entry POST request
+router.post("/api/admin/deleteEntry", jsonParser, adminPost.postDeleteEntry);
+
 module.exports = router;

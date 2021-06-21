@@ -1,4 +1,6 @@
+const crypto = require("crypto");
 const getDb = require("../../../Firebase/firebaseConfig").getDb;
+const getFieldValue = require("../../../Firebase/firebaseConfig").getFieldValue;
 
 exports.postLogin = async (req, res, next) => {
   const username = req.body.username;
@@ -54,6 +56,96 @@ exports.postEdit = async (req, res, next) => {
 
     return res.status(404).send("Not Found");
   }
+};
 
-  console.log(alumniData);
+exports.postAddEntry = async (req, res, next) => {
+  const db = getDb();
+  const values = req.body.values;
+
+  console.log(values);
+
+  try {
+    //create alumni Entry
+    const alumniDocRef = await db
+      .collection("alumni-db")
+      .doc(values.batch)
+      .collection("alumni-data")
+      .doc(values.id);
+
+    await alumniDocRef.set(values);
+
+    //set password
+    const password = crypto.randomBytes(3).toString("hex");
+    const batchDocRef = await db.collection("alumni-db").doc(values.batch);
+
+    await batchDocRef.set(
+      {
+        passwords: {
+          [values.id]: password,
+        },
+      },
+      { merge: true }
+    );
+
+    //create user
+    const userDocRef = await db
+      .collection("users")
+      .doc("alumni-user")
+      .collection("alumni-user-credentials")
+      .doc(values.id);
+
+    await userDocRef.set({
+      alumniDataRef: alumniDocRef,
+      id: values.id,
+      password: password,
+    });
+
+    return res.status(200).send("Success");
+  } catch {
+    console.log("[*] Error in postAddEntry");
+    return res.status(404).send("Error");
+  }
+};
+
+exports.postDeleteEntry = async (req, res, next) => {
+  const db = getDb();
+  const values = req.body.values;
+
+  try {
+    //delete alumni entry
+    const alumniDocRef = await db
+      .collection("alumni-db")
+      .doc(values.batch)
+      .collection("alumni-data")
+      .doc(values.id);
+
+    await alumniDocRef.delete();
+
+    //delete password
+    const batchDocRef = await db.collection("alumni-db").doc(values.batch);
+    const FieldValue = getFieldValue();
+    console.log(FieldValue);
+    await batchDocRef.set(
+      {
+        passwords: {
+          [values.id]: FieldValue.delete(),
+        },
+      },
+      { merge: true }
+    );
+
+    //delete user
+    const userDocRef = await db
+      .collection("users")
+      .doc("alumni-user")
+      .collection("alumni-user-credentials")
+      .doc(values.id);
+
+    await userDocRef.delete();
+
+    return res.status(200).send("Success");
+  } catch {
+    console.log("[*] Error in postDeleteEntry");
+    return res.status(404).send("Error");
+  }
 };
