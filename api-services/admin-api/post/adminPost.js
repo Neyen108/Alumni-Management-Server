@@ -30,7 +30,7 @@ exports.postLogin = async (req, res, next) => {
       id: id,
     });
   } else {
-    console.log("No matching Documents found");
+    console.log("[*] Error in postLogin");
 
     return res.status(404).send("Not Found");
   }
@@ -61,8 +61,6 @@ exports.postEdit = async (req, res, next) => {
 exports.postAddEntry = async (req, res, next) => {
   const db = getDb();
   const values = req.body.values;
-
-  console.log(values);
 
   try {
     //create alumni Entry
@@ -124,7 +122,7 @@ exports.postDeleteEntry = async (req, res, next) => {
     //delete password
     const batchDocRef = await db.collection("alumni-db").doc(values.batch);
     const FieldValue = getFieldValue();
-    console.log(FieldValue);
+
     await batchDocRef.set(
       {
         passwords: {
