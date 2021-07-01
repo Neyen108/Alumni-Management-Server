@@ -6,10 +6,14 @@ const cors = require("cors");
 
 const adminApiRoutes = require("./api-routes/adminApiRoutes");
 const generalApiRoutes = require("./api-routes/generalApiRoutes");
+const alumniApiRoutes = require("./api-routes/alumniApiRoutes");
+const studentApiRoutes = require("./api-routes/studentApiRoutes");
 
 app.use(cors());
 app.use(adminApiRoutes);
 app.use(generalApiRoutes);
+app.use(alumniApiRoutes);
+app.use(studentApiRoutes);
 
 // console.log(getDb());
 
