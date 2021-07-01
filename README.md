@@ -2,8 +2,9 @@
 
 The server/backend code for an Alumni Management System built with [NodeJs](https://nodejs.dev/), [Express](https://expressjs.com/) and [Firebase](https://firebase.google.com/).        
 [Firebase Admin SDK](https://firebase.google.com/docs/admin/setup) has been used for facilitating the use of Firebase on a server.    
-[FireStore](https://firebase.google.com/docs/firestore) is used as the Alumni Database.     
-The client/frontend can be found [here](https://github.com/Neyen108/Alumni-Management-Client).      
+[FireStore](https://firebase.google.com/docs/firestore) is used as the Alumni Database.   
+
+- The client/frontend can be found [here](https://github.com/Neyen108/Alumni-Management-Client).      
 
 ## 🛠 Installing     
 1. Install dependencies     
