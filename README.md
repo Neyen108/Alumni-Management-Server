@@ -38,3 +38,4 @@ The client/frontend can be found [here](https://github.com/Neyen108/Alumni-Manag
 
 - [NodeJs](https://nodejs.dev/)      
 - [ExpressJs](https://expressjs.com/)   
+- [Firebase](https://firebase.google.com/)    
