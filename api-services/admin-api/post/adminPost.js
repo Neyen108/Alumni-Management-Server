@@ -147,3 +147,64 @@ exports.postDeleteEntry = async (req, res, next) => {
     return res.status(404).send("Error");
   }
 };
+
+exports.postAddBatch = async (req, res, next) => {
+  const batch = req.body.batch;
+  const alumniDataArr = req.body.alumniData;
+  console.log(typeof alumniDataArr);
+
+  const db = getDb();
+
+  try {
+    const batchDocRef1 = db.collection("alumni-db").doc(batch);
+
+    const batchDoc = await batchDocRef1.get();
+
+    if (batchDoc.exists) {
+      return res.send("The Batch Already Exists!");
+    } else {
+      await batchDocRef1.set({ batchName: batch });
+
+      alumniDataArr.forEach(async (alumniData) => {
+        const alumniDocRef = await db
+          .collection("alumni-db")
+          .doc(batch)
+          .collection("alumni-data")
+          .doc(alumniData.id);
+
+        await alumniDocRef.set(alumniData);
+
+        //set password
+        const password = crypto.randomBytes(3).toString("hex");
+        const batchDocRef = await db.collection("alumni-db").doc(batch);
+
+        await batchDocRef.set(
+          {
+            passwords: {
+              [alumniData.id]: password,
+            },
+          },
+          { merge: true }
+        );
+
+        //create user
+        const userDocRef = await db
+          .collection("users")
+          .doc("alumni-user")
+          .collection("alumni-user-credentials")
+          .doc(alumniData.id);
+
+        await userDocRef.set({
+          alumniDataRef: alumniDocRef,
+          id: alumniData.id,
+          password: password,
+        });
+      });
+
+      return res.status(200).send("Success");
+    }
+  } catch {
+    console.log("[*] Error in postAddBatch");
+    return res.status(404).send("Error");
+  }
+};

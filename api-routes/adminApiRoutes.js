@@ -25,4 +25,7 @@ router.post("/api/admin/addEntry", jsonParser, adminPost.postAddEntry);
 //delete entry POST request
 router.post("/api/admin/deleteEntry", jsonParser, adminPost.postDeleteEntry);
 
+//add batch
+router.post("/api/admin/addBatch", jsonParser, adminPost.postAddBatch);
+
 module.exports = router;
